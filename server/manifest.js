@@ -6,7 +6,6 @@ const Toys = require('toys');
 
 // Pull .env into process.env
 Dotenv.config({ path: `${__dirname}/.env` });
-
 // Glue manifest as a confidence store
 module.exports = new Confidence.Store({
     server: {
@@ -41,6 +40,29 @@ module.exports = new Confidence.Store({
                     $filter: { $env: 'NODE_ENV' },
                     $default: 'hpal-debug',
                     production: Toys.noop
+                }
+            },
+            {
+                plugin: 'schwifty',
+                options: {
+                    $filter: 'NODE_ENV',
+                    $default: {},
+                    $base: {
+                        migrateOnStart: true,
+                        knex: {
+                            client: 'pg',
+                            connection: {
+                                host     : process.env.POSTGRES_HOST || 'localhost',
+                                port     : process.env.POSTGRES_PORT || 5432 ,
+                                user     : process.env.POSTGRES_USER || 'hapi',
+                                password : process.env.POSTGRES_PASSWORD || 'hapi',
+                                database : process.env.POSTGRES_DATABASE || 'unilim'
+                            }
+                        }
+                    },
+                    production: {
+                        migrateOnStart: false
+                    }
                 }
             }
         ]

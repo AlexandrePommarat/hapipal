@@ -50,10 +50,10 @@ module.exports = new Confidence.Store({
                     $base: {
                         migrateOnStart: true,
                         knex: {
-                            client: 'pg',
+                            client: "mysql",
                             connection: {
-                                host     : process.env.POSTGRES_HOST || 'localhost',
-                                port     : process.env.POSTGRES_PORT || 5432 ,
+                                host     : process.env.POSTGRES_HOST || '127.0.0.1',
+                                port     : process.env.POSTGRES_PORT || 3306 ,
                                 user     : process.env.POSTGRES_USER || 'hapi',
                                 password : process.env.POSTGRES_PASSWORD || 'hapi',
                                 database : process.env.POSTGRES_DATABASE || 'unilim'
